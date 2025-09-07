@@ -1,4 +1,4 @@
-package com.cobeffectiveness.neoforge;
+package com.cobeffectiveness.neoforge.hook;
 
 import com.cobeffectiveness.CobEffectiveness;
 import com.cobeffectiveness.neoforge.ui.EffectivenessHud;

@@ -1,28 +1,45 @@
 package com.cobeffectiveness.type;
 
+import com.cobeffectiveness.CobEffectiveness;
+
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map;
 
 public final class TypeIcon {
-    public static final int TILE_W = 12;
-    public static final int TILE_H = 12;
-
-    public static final int COLS = 18;
-    public static final int ROWS = 1;
-    public static final int ATLAS_W = COLS * TILE_W;
-    public static final int ATLAS_H = ROWS * TILE_H;
+    public static int TILE_W = 12;
+    public static int TILE_H = 12;
+    public static int COLS = 18;
+    public static int ROWS = 1;
+    public static int SHEET_W = COLS * TILE_W;
+    public static int SHEET_H = ROWS * TILE_H;
 
     private static final Map<Type, Pos> POS = new EnumMap<>(Type.class);
 
-    static {
-        Type[] order = {
-                Type.NORMAL, Type.FIRE, Type.WATER, Type.GRASS, Type.ELECTRIC, Type.ICE,
-                Type.FIGHTING, Type.POISON, Type.GROUND, Type.FLYING, Type.PSYCHIC, Type.BUG,
-                Type.ROCK, Type.GHOST, Type.DRAGON, Type.DARK, Type.STEEL, Type.FAIRY
-        };
-        for (int i = 0; i < order.length; i++) {
-            int col = i % COLS;
-            POS.put(order[i], new Pos(col * TILE_W, 0));
+    private TypeIcon() {}
+
+    public static synchronized void configure(int cols, int rows, int tileW, int tileH, List<String> order) {
+        if (cols > 0) COLS = cols;
+        if (rows > 0) ROWS = rows;
+        if (tileW > 0) TILE_W = tileW;
+        if (tileH > 0) TILE_H = tileH;
+
+        SHEET_W = COLS * TILE_W;
+        SHEET_H = ROWS * TILE_H;
+
+        POS.clear();
+        if (order == null) return;
+
+        for (int i = 0; i < order.size(); i++) {
+            String cobName = order.get(i);
+            try {
+                Type type = Type.fromCobblemon(cobName);
+                int col = i % COLS;
+                int row = i / COLS;
+                POS.put(type, new Pos(col * TILE_W, row * TILE_H));
+            } catch (IllegalArgumentException ignored) {
+                CobEffectiveness.logWarn("Unknown type in JSON: {}", cobName);
+            }
         }
     }
 

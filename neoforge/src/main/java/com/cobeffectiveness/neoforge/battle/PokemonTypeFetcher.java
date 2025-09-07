@@ -40,7 +40,6 @@ public final class PokemonTypeFetcher {
         boolean iAmSide1 = side1.getActors().stream().anyMatch(a -> me.equals(a.getUuid()));
         ClientBattleSide enemy = iAmSide1 ? side2 : side1;
 
-        // Collect types across all enemy actives (1v1 = one entry; doubles = two)
         Set<Type> out = EnumSet.noneOf(Type.class);
         for (ActiveClientBattlePokemon active : enemy.getActiveClientBattlePokemon()) {
             resolveTypes(active, out);
@@ -66,17 +65,13 @@ public final class PokemonTypeFetcher {
         try {
             into.add(Type.fromCobblemon(form.getPrimaryType().getName()));
         } catch (IllegalArgumentException ex) {
-            CobEffectiveness.LOGGER.warn(
-                    "Unknown primary type '{}'", form.getPrimaryType().getName()
-            );
+            CobEffectiveness.logWarn("Unknown primary type '{}'", form.getPrimaryType().getName());
         }
         if (form.getSecondaryType() != null) {
             try {
                 into.add(Type.fromCobblemon(form.getSecondaryType().getName()));
             } catch (IllegalArgumentException ex) {
-                com.cobeffectiveness.CobEffectiveness.LOGGER.warn(
-                        "Unknown secondary type '{}'", form.getSecondaryType().getName()
-                );
+                CobEffectiveness.logWarn("Unknown secondary type '{}'", form.getSecondaryType().getName());
             }
         }
     }

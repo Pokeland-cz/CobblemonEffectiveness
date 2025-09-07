@@ -2,8 +2,8 @@ package com.cobeffectiveness.fabric.ui;
 
 import com.cobblemon.mod.common.client.gui.battle.BattleOverlay;
 import com.cobeffectiveness.battle.OpponentSnapshot;
-import com.cobeffectiveness.type.Type;
 import com.cobeffectiveness.type.EffectivenessChart;
+import com.cobeffectiveness.type.Type;
 import com.cobeffectiveness.ui.IconRenderer;
 import com.cobeffectiveness.ui.PanelRenderer;
 import net.minecraft.client.MinecraftClient;
